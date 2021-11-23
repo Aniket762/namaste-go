@@ -41,3 +41,33 @@ func EncodeJson()  {
 
 	fmt.Printf("%s\n",finalJson)
 }
+
+func DecodeJson()  {
+	jsonDataFromWeb := []byte(`
+		{
+			"fname":"aniket",
+			"lname":"pal"
+		}
+	`)
+
+	var acourse course 
+	checkValid := json.Valid(jsonDataFromWeb) // return bool
+
+	// unmarshal decode's json and tell how it should look
+	if checkValid{
+		fmt.Println("JSON was valid")	
+		json.Unmarshal(jsonDataFromWeb,&acourse)
+		fmt.Printf("%#v\n",acourse)
+	} else{
+		fmt.Println("JSON was not valid")
+	}
+	
+	// cases where you just want to add data to key value
+	var onlineData map[string]interface{}
+	json.Unmarshal(jsonDataFromWeb,&onlineData)
+	fmt.Printf("%v\n",onlineData)
+
+	for k , v := range onlineData {
+		fmt.Printf("key is %v and value is %v",k,v)
+	}
+}
