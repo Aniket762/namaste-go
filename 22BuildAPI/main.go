@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"encoding/json"
+	"fmt"
+	"net/http"
+)
 
 // model for course
 type Course struct {
@@ -18,6 +22,17 @@ type Author struct{
 // middlewares
 func (c *Course ) IsEmpty() bool {
 	return c.CourseId == "" && c.CourseName == ""
+}
+
+// controllers
+func serveHome(w http.ResponseWriter,r *http.Request)  {
+	w.Write([]byte("<h1>Let's build awesome APIs 🔥🇮🇳</h1>"))
+}
+
+func getAllCourses(w http.ResponseWriter, r http.Request)  {
+	fmt.Println("Get all courses")
+	w.Header().Set("Content-Type","application/json")
+	json.NewEncoder(w).Encode(courses)
 }
 
 // dummy database
