@@ -85,6 +85,42 @@ func CreateOneCourse(w http.ResponseWriter,r *http.Request)  {
 
 }	
 
+func UpdateOneCourse(w http.ResponseWriter, r *http.Request)  {
+	fmt.Println("Update one course")
+	w.Header().Set("Content-Type","application/json")
+
+	params := mux.Vars(r)
+
+	// loop through value , id , remove , add 
+	for index, course := range courses{
+		if course.CourseId == params["id"]{
+			courses = append(courses[:index],courses[index+1:]... )
+			var course Course
+			_ = json.NewDecoder(r.Body).Decode(&course)
+			course.CourseId = params["id"]
+			courses = append(courses, course)
+			json.NewEncoder(w).Encode(course)
+			return
+		}
+	}
+}
+
+func DeleteOneCourse(w http.ResponseWriter, r *http.Request)  {
+	fmt.Println("Delete One course")
+	w.Header().Set("Content-Type","application/json")
+
+	params := mux.Vars(r)
+
+	// loop , id , remove
+	for index , course := range courses{
+		if course.CourseId == params["id"]{
+			courses = append(courses[:index],courses[index+1:]... )
+			break
+		}
+	}
+
+}
+
 
 // dummy database
 var courses [] Course
