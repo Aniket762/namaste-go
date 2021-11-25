@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"math/rand"
 	"net/http"
 	"strconv"
@@ -37,7 +38,7 @@ func ServeHome(w http.ResponseWriter,r *http.Request)  {
 func GetAllCourses(w http.ResponseWriter, r *http.Request)  {
 	fmt.Println("Get all courses")
 	w.Header().Set("Content-Type","application/json")
-	json.NewEncoder(w).Encode(courses)
+	json.NewEncoder(w).Encode(courses) // !important to understand
 }
 
 func GetOneCourse(w http.ResponseWriter, r *http.Request)  {
@@ -55,7 +56,7 @@ func GetOneCourse(w http.ResponseWriter, r *http.Request)  {
 		}
 	}
 	json.NewEncoder(w).Encode("No course found with given id"+ params["id"])
-	return 
+ 
 }
 
 func CreateOneCourse(w http.ResponseWriter,r *http.Request)  {
@@ -81,7 +82,6 @@ func CreateOneCourse(w http.ResponseWriter,r *http.Request)  {
 	course.CourseId = strconv.Itoa(rand.Intn(100))
 	courses = append(courses, course)
 	json.NewEncoder(w).Encode(course)
-	return
 
 }	
 
@@ -122,11 +122,26 @@ func DeleteOneCourse(w http.ResponseWriter, r *http.Request)  {
 }
 
 
+
 // dummy database
 var courses [] Course
 
 func main()  {
 	fmt.Println("Getting into building API 🙏")
+	r := mux.NewRouter()
 
+	// dummy data feeding
+	courses = append(courses, Course{CourseId: "2", CourseName: "ReactJS", CoursePrice: 0, Author: &Author{Fullname: "Aniket", Website: "youtube.com"}})
+	courses = append(courses, Course{CourseId: "4", CourseName: "MERN Stack", CoursePrice: 1, Author: &Author{Fullname: "Aniket", Website: "go.dev"}})
+
+	r.HandleFunc("/",ServeHome).Methods("GET")
+	r.HandleFunc("/courses",GetAllCourses).Methods("GET")
+	r.HandleFunc("/course/{id}",GetOneCourse).Methods("GET")
+	r.HandleFunc("/course",CreateOneCourse).Methods("POST")
+	r.HandleFunc("/course/{id}",UpdateOneCourse).Methods("PUT","GET")
+	r.HandleFunc("/course/{id}",DeleteOneCourse).Methods("DELETE")
+	
+
+	log.Fatal(http.ListenAndServe(":8081",r))
 
 }
