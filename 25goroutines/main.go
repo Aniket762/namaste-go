@@ -10,6 +10,11 @@ import (
 // for multi threading we need wait groups
 var wg sync.WaitGroup // pointer
 
+
+// understanding mutex
+var mut sync.Mutex
+var signals = []string{}
+
 func main()  {
 	// its concurrently works
 	go greeter("Getting into")
@@ -67,6 +72,10 @@ func GetStatusCodeWait(endpoint string)  {
 	if err!= nil{
 		fmt.Println("Endpoint not reachable")
 	}else{
+		// until one thread is executed it will not do anything more
+		mut.Lock()
+		signals = append(signals, endpoint)
+		mut.Unlock()
 		fmt.Printf("%d status code for %s\n",res.StatusCode,endpoint)
 	}
 }
@@ -90,4 +99,13 @@ Go Routines
 */
 
 
+/*
+Mutex is a mutual exclusion lock. The zero
+value fo Mutex is an unlocked mutex.
 
+It looks the memory , so when one goroutine is writing
+something in the memory it will not allow anything else to write on it
+
+Similarly for RWMutex
+While one operation is being running it will run until interrupted
+*/
