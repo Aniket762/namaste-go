@@ -1,18 +1,3 @@
-/*
-Copyright © 2021 NAME HERE <EMAIL ADDRESS>
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
 package cmd
 
 import (
@@ -28,12 +13,28 @@ var adderCmd = &cobra.Command{
 	Long:  `A simple cli to add two numbers`,
 	Run: func(cmd *cobra.Command, args []string) {
 		greeter()
-
+		takeInputs()
 	},
 }
 
 func greeter() {
 	fmt.Println("Getting into adding two numbers 🙏")
+}
+
+func takeInputs() {
+	var input1, input2 int
+	fmt.Printf("Enter the first number: ")
+	fmt.Scan(&input1)
+	fmt.Printf("Enter the second number: ")
+	fmt.Scan(&input2)
+	result := addTwoNumbers(int64(input1), int64(input2))
+	fmt.Print("Adding the numbers gives us: ")
+	fmt.Print(result)
+}
+
+func addTwoNumbers(a int64, b int64) int64 {
+	var c int64 = a + b
+	return c
 }
 
 func init() {
