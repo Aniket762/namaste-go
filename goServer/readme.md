@@ -1,4 +1,4 @@
-### Flow of the Server
+### Flow of the Server 💪
 
 server -> / -> index.html
 server -> /hello ->hello func
