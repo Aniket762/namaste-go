@@ -1,0 +1,5 @@
+## Commands to setup
+1. go mod init github.com/Aniket762/namaste-go/connectDB
+2. go get "github.com/jinzhu/gorm" : Gorm required while interacting with Database basically an ORM
+3. go get "github.com/jinzhu/gorm/dialects/mysql": Needed to interact with mysql server
+4. go get "github.com/gorilla/mux"
