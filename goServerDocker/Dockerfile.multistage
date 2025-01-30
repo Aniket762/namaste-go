@@ -1,0 +1,32 @@
+# Stage 1 : Build the app
+FROM golang:1.23 AS builder
+
+# Set working directory in container
+WORKDIR /app
+
+# Copy the Go modules and download dependencies
+COPY go.mod go.sum ./
+
+RUN go mod download
+
+# The application source code is copied
+COPY . .
+
+# Build the application binary
+ENV CGO_ENABLED=0 GOOS=linux GOARCH=amd64
+RUN go build -o myapp .
+
+# Step 2: Prepare a light weight runtime environment
+FROM alpine:latest
+
+# Within instances of the runtime container, also set the working directory
+WORKDIR /root/
+
+# COPY — Copy the binary from builder stage
+COPY --from=builder /app/myapp .
+
+# Expose the port the application listens on.
+EXPOSE 8080
+
+# Run the application
+CMD ["./myapp"]

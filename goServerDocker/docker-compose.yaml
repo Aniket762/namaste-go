@@ -1,0 +1,11 @@
+
+services:          # Defines the services (containers) to be managed by Docker Compose.
+  app:             # Service name representing the application.
+    build:         # Configuration for building the Docker image.
+      context: .   # Build the container image from the Dockerfile in the current dir.
+      dockerfile: Dockerfile.multistage # Specifies the Dockerfile to use (multi-stage / normal Dockerfile).
+
+    ports:         
+      - "8080:8080" # Maps port 8080 on the host to port 8080 in the container.
+
+    restart: unless-stopped # Automatically restarts the container unless has explicitly stopped the container by the user.

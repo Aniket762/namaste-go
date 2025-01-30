@@ -13,3 +13,12 @@ go get "github.com/gorilla/mux"
 | CREATE    | createMovie | /movies    | POST    |
 | UPDATE    | updateMovie | /movies/id | PUT     |
 | DELETE    | deleteMovie | /movies/id | DELETE  |
+
+
+#### Run the server
+
+go run main.go
+
+#### Test the server
+
+go test
